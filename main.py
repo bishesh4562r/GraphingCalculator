@@ -6,6 +6,7 @@ import numpy as np
 import threading
 import time
 
+
 pygame.init()
 screen = pygame.display.set_mode((1500,720))
 #DEFAULTS:
@@ -19,8 +20,18 @@ running = True
 scale=100
 num_font = pygame.font.SysFont("Arial",int(12*100/scale))
 equation_font = pygame.font.Font(None,32)
+text_color = (255, 255, 255)
 
-graphs ={'blue':'y=x**3','red':'y=x+3','black':'y=(-1)**x'}
+
+curves =[['blue','y=math.sin(1/x)'],['red','y=math.exp(x)'],['black','y=math.sqrt(1-x**2)'],['black','y=-math.sqrt(1-x**2)']]
+xpts=[]
+i=-50
+while i<50:
+    xpts.append(i)
+    i=round(np.add(i,0.01),2)
+    
+
+
 def draw_text(text,font,text_col,pos):
     img = font.render(text,True,text_col)
     screen.blit(img,pos)
@@ -30,7 +41,6 @@ def transform(scale,X,Y):
      
 def transform_distance(scale,r):
     return scale*r
-
 
 
     
@@ -50,7 +60,12 @@ def naxis(s,e,x,n):
             pygame.draw.line(screen,'black',(origin[0]+scale/4,each),(origin[0]-scale/4,each))
             draw_text(str(number),num_font,'black',position_number)
 
+
+
+
 while running:
+
+    
     screen.fill('white')
     #bordering for input
     pygame.draw.line(screen,'black',(borders[0],0),(borders[0],720))
@@ -66,6 +81,9 @@ while running:
     naxis(origin[1],720,False,1)
     naxis(origin[1],0,False,-1)
 
+
+
+
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             running = False
@@ -78,18 +96,22 @@ while running:
                 scale+=float(event.y)
 
     
-   
-    for color in graphs:
-        for x in np.arange(-50,50,0.01):
+    for entry in curves:
+        color=entry[0]
+        function=entry[1]
+        for x in xpts:
             try:
-                
-                exec(graphs[color])
+                exec(function)
+
                 pt=transform(scale,x,y)
                 x+=0.01
-                exec(graphs[color])
+                exec(function)
                 pt_2=transform(scale,x,y)
                 pygame.draw.line(screen,color,pt,pt_2)
+                
             except Exception as e:
+                if x==-1:
+                    print(e)
                 continue   
         
         
