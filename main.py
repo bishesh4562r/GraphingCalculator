@@ -22,13 +22,12 @@ num_font = pygame.font.SysFont("Arial",int(12*100/scale))
 equation_font = pygame.font.Font(None,32)
 text_color = (255, 255, 255)
 
-
-curves =[['blue','y=math.sin(1/x)'],['red','y=math.exp(x)'],['black','y=math.sqrt(1-x**2)'],['black','y=-math.sqrt(1-x**2)']]
+curves =[['blue','y=math.log(x)'],['red','y=math.exp(x)'],['white','y=math.sqrt(1-x**2)'],['white','y=-math.sqrt(1-x**2)'],['yellow','y,x=x,math.e'],['yellow','y=1']]
 xpts=[]
 i=-50
 while i<50:
     xpts.append(i)
-    i=round(np.add(i,0.01),2)
+    i=round(i+0.01,2)
     
 
 
@@ -51,14 +50,14 @@ def naxis(s,e,x,n):
         for each in np.arange(s,e,step=n*scale):
             position_number=(each,origin[1]-scale/2)
             number=int((each-s)/scale)
-            pygame.draw.line(screen,'black',(each,origin[1]+scale/4),(each,origin[1]-scale/4))
-            draw_text(str(number),num_font,'black',position_number)
+            pygame.draw.line(screen,'white',(each,origin[1]+scale/4),(each,origin[1]-scale/4))
+            draw_text(str(number),num_font,'white',position_number)
     else:
         for each in np.arange(s,e,step=n*scale):
             position_number=(origin[0]-scale/2,each)
             number=-int((each-s)/scale)
-            pygame.draw.line(screen,'black',(origin[0]+scale/4,each),(origin[0]-scale/4,each))
-            draw_text(str(number),num_font,'black',position_number)
+            pygame.draw.line(screen,'white',(origin[0]+scale/4,each),(origin[0]-scale/4,each))
+            draw_text(str(number),num_font,'white',position_number)
 
 
 
@@ -66,14 +65,14 @@ def naxis(s,e,x,n):
 while running:
 
     
-    screen.fill('white')
+    screen.fill('black')
     #bordering for input
-    pygame.draw.line(screen,'black',(borders[0],0),(borders[0],720))
+    pygame.draw.line(screen,'white',(borders[0],0),(borders[0],720))
     pygame.draw.circle(screen,'blue',transform(scale,0,0),transform_distance(scale,0.1))
     #yaxis
-    pygame.draw.line(screen,'black',(origin[0],720),(origin[0],0))
+    pygame.draw.line(screen,'white',(origin[0],720),(origin[0],0))
     #xaxis
-    pygame.draw.line(screen,'black',(1500,origin[1]),(500,origin[1]))
+    pygame.draw.line(screen,'white',(1500,origin[1]),(500,origin[1]))
     #numbering the  x axis
     naxis(origin[0],1500,True,1)
     naxis(origin[0],500,True,-1)
